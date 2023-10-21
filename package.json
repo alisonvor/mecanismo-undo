@@ -1,0 +1,24 @@
+{
+  "name": "log-mechanism",
+  "version": "1.0.0",
+  "description": "Projeto destinado a implementação de um mecanismo de log com undo solicitado em aula",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "pg": "^8.6.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "@types/pg": "^8.10.7",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
