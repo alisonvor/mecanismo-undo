@@ -7,11 +7,9 @@ export function validateLog(logs: string[], metadata: Metadata): boolean {
             return false;
         }
 
-        const content = line.slice(1, -1); // Remove angle brackets
+        const content = line.slice(1, -1);
         const parts = content.split(',').map(part => part.trim());
         const controlParts = content.split(' ').map(part => part.trim());
-
-        console.log({ content, parts, controlParts });
 
         // Valida o controle de transações
         if (controlParts.length === 2 && ['start', 'commit', 'abort', 'end'].includes(controlParts[0].toLowerCase())) {
