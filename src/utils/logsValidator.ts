@@ -21,7 +21,7 @@ export function validateLog(logs: string[], metadata: Metadata): boolean {
             return false;
         }
 
-        const [transactionId, id, columnName, value] = parts;
+        const [columnName] = parts;
 
         if (!metadata.table[columnName]) {
             console.error(`Coluna inválida: ${columnName}`);
