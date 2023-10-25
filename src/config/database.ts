@@ -1,13 +1,14 @@
 import { Client } from 'pg';
 import { Metadata } from '../models/MetadataInterface';
 import { determineType } from "../utils/typeHelper";
+require('dotenv').config();
 
 const client = new Client({
-    host: 'localhost',
-    user: 'postgres',
-    database: 'undo_mechanism',
-    password: 'postgres',
-    port: 5432,
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: Number(process.env.PGPORT) || 5432
 });
 
 export async function connectToDatabase() {
