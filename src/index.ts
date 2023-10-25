@@ -1,10 +1,10 @@
-import { connectToDatabase, disconnectFromDatabase } from './config/database';
-import { processUndo } from "./services/undoService";
+import {connectToDatabase, disconnectFromDatabase, fetchDataAndConstructStructure} from './config/database';
+import { initiateUndo } from "./services/undoService";
 
 async function main() {
     await connectToDatabase();
 
-    await processUndo();
+    await initiateUndo();
 
     await disconnectFromDatabase();
 }

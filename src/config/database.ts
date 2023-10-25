@@ -24,10 +24,8 @@ export async function populateDatabaseWithMetadata(metadata: Metadata, tableName
     const columns = Object.keys(metadata.table);
     const columnDefinitions = columns.map(column => {
         const type = determineType(metadata.table[column][0]);
-        return `${column} ${type}`;
+        return `${column.toLowerCase()} ${type}`;
     }).join(', ');
-
-    console.log({ columnDefinitions })
 
     await client.query(`CREATE TABLE ${tableName} (${columnDefinitions})`);
 
@@ -35,13 +33,37 @@ export async function populateDatabaseWithMetadata(metadata: Metadata, tableName
         '(' + columns.map(column => `'${metadata.table[column][rowIndex]}'`).join(', ') + ')'
     )).join(', ');
 
-    console.log(values);
-
     await client.query(`INSERT INTO ${tableName} (${columns.join(', ')}) VALUES ${values}`);
-
-    await client.end();
 
     return {
 
     }
+}
+
+export async function fetchDataAndConstructStructure(tableName: string): Promise<Metadata> {
+    const result = await client.query(`SELECT * FROM ${tableName}`);
+    const { rows } = result;
+
+    // Construct the structure dynamically
+    const structure: Metadata = {
+        table: {}
+    };
+
+    for (const row of rows) {
+        for (const column in row) {
+            if (row.hasOwnProperty(column)) {
+                if (!structure.table[column]) {
+                    structure.table[column] = [];
+                }
+
+                structure.table[column].push(row[column]);
+            }
+        }
+    }
+
+    return structure;
+}
+
+export async function executeQuery(query: string) {
+    return client.query(query);
 }
