@@ -67,14 +67,14 @@ async function processUndo(metadata: Metadata, logs: string[], tableName: string
         if (!content.toLowerCase().startsWith("start ckpt")
             && (activeTransactions.has(transactionId) || !commitedTransactions.has(transactionId))) {
             if (parts.length === 4 && !commitedTransactions.has(parts[0].toLowerCase())) { // It's an operation entry
-                const [_, id, columnName, value] = parts;
+                const [_, id, columnName] = parts;
 
                 if (metadata.table[columnName]) {
                     const result = await executeQuery(`SELECT ${columnName} FROM ${tableName} WHERE ${Object.keys(metadata.table)[0]} = ${id}`);
 
                     for (const row of result.rows) {
                         if (row[columnName.toLowerCase()].toString() !== parts[3]) {
-                            const result = await executeQuery(`UPDATE ${tableName} SET ${columnName} = ${parts[3]} WHERE ${Object.keys(metadata.table)[0]} = ${id}`);
+                            await executeQuery(`UPDATE ${tableName} SET ${columnName} = ${parts[3]} WHERE ${Object.keys(metadata.table)[0]} = ${id}`);
                             console.log(`Linha com ${Object.keys(metadata.table)[0]}: ${id} reverteu o valor de ${row[columnName.toLowerCase()]} para ${parts[3]} na Coluna ${columnName}`);
                         }
                     }
